@@ -1,4 +1,4 @@
 #!/bin/bash
 
-emcc wgyn.cpp -o wgyn.js -s EXPORTED_FUNCTIONS="['_solve_wgyn']"
+emcc wgyn.cpp -o wgyn.js -s EXPORTED_FUNCTIONS="['_solve_wgyn']" -O3
 
