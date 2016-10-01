@@ -122,7 +122,7 @@ std::string print_formatted(int sequence[], int fact_array[])
 {
     int i;
     // Order of operations indicator used to place parentheses
-    // 1=+ or -, 2=* or / or !, 3=^ or log, 4=just a number
+    // 1=+ or -, 2=* or /, 3=^ or log or !, 4=just a number
     std::deque<int> expr_type; 
     std::deque<std::string> stack;
     std::string str, a, b;
@@ -130,14 +130,18 @@ std::string print_formatted(int sequence[], int fact_array[])
     for(i=0; i<7; i++) {
         switch(sequence[i]) {
         case ADD:
-            str = stack[1] + " + " + stack[0];
+            a = stack[1];
+            b = stack[0];
+            str = a + " + " + b;
             stack.pop_front(); stack.pop_front();
             stack.push_front(str);
             expr_type.pop_front(); expr_type.pop_front();
             expr_type.push_front(1);
             break;
         case SUB:
-            str = stack[1] + " - " + stack[0];
+            a = stack[1];
+            b = expr_type[0] < 2? "(" + stack[0] + ")" : stack[0];
+            str = a + " - " + b;
             stack.pop_front(); stack.pop_front();
             stack.push_front(str);
             expr_type.pop_front(); expr_type.pop_front();
@@ -154,7 +158,7 @@ std::string print_formatted(int sequence[], int fact_array[])
             break;
         case DIV:
             a = expr_type[1] < 2? "(" + stack[1] + ")" : stack[1];
-            b = expr_type[0] < 2? "(" + stack[0] + ")" : stack[0];
+            b = expr_type[0] < 3? "(" + stack[0] + ")" : stack[0];
             str = a + " / " + b;
             stack.pop_front(); stack.pop_front();
             stack.push_front(str);
@@ -199,7 +203,7 @@ std::string print_formatted(int sequence[], int fact_array[])
             stack.pop_front();
             stack.push_front(str + "!");
             expr_type.pop_front();
-            expr_type.push_front(2);
+            expr_type.push_front(3);
         }
     }
 
@@ -326,7 +330,7 @@ void evaluate(int sequence[], int fact_array[])
             break;
         default: // add new number
             memmove(stack+1, stack, 4*sizeof(double));
-            stack[0] = sequence[i];
+            stack[0] = (double)sequence[i];
             memmove(stack_info+1, stack_info, 4*sizeof(int));
             stack_info[0] = 0;
             depth++;
@@ -343,7 +347,7 @@ void evaluate(int sequence[], int fact_array[])
                 return; // can't factorial non-integral             
             if((stack[0] < 3 && stack[n] != 0) || stack[0] > 20)
                 return; // factorial bounds
-            stack[0] = factorial(stack[0]);
+            stack[0] = (double)factorial((int)stack[0]);
             stack_info[0] = 1;
         }
         
@@ -435,7 +439,7 @@ int main(int argc, char **argv)
     else scanf("%d %d %d %d", &n1, &n2, &n3, &n4);
 
     printf("%s", solve_wgyn(n1, n2, n3, n4));
-    
+
     return 0;
 }
 
