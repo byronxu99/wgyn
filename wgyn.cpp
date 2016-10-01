@@ -73,7 +73,7 @@ static inline int is_integral(double x)
     return floor(fabs(x)) == fabs(x);
 }
 
-static inline double factorial(double n)
+static inline int factorial(int n)
 {
     int i;
     int x = 1;
