@@ -55,7 +55,7 @@ function solve() {
         var result = Module.ccall('solve_wgyn', 
             'string',                                   // return type
             ['number', 'number', 'number', 'number'],   // input types
-            [n1, n2, n3, n4]);                              // arguments
+            [n1, n2, n3, n4]);                          // arguments
         document.getElementById("output").innerHTML = result;
     }, 0);
 }
