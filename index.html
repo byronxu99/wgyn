@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+    body {
+        margin:40px auto;
+        max-width:500px;
+    }
+
+    input[type=number] {
+        width: 10%;
+        padding: 2px 2px;
+    }
+
+    textarea {
+        font-family: monospace;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <title>We've Got Your Number Solver</title>
+</head>
+
+<body>
+<h1>We've Got Your Number Solver</h1>
+<p>
+    <form id="form">
+        Input the numbers:
+        <input type="number" id="n1" min="0" max="9">
+        <input type="number" id="n2" min="0" max="9">
+        <input type="number" id="n3" min="0" max="9">
+        <input type="number" id="n4" min="0" max="9">
+        <button id="button" onclick="wait(); solve(); return false;">Solve</button>
+    </form>
+</p>
+
+<p><textarea id="output" rows=102 cols=50 readonly></textarea></p>
+
+<p>Notes: The solver does not account for double factorials like (3!)!. Sometimes the solution for 1 is incorrect.</p>
+
+<script src="wgyn.js"></script>
+<script>
+function wait() {
+    document.getElementById("output").innerHTML = "Please wait...";
+}
+
+function solve() {
+    setTimeout(function() {
+        var n1 = document.getElementById("n1").value;
+        var n2 = document.getElementById("n2").value;
+        var n3 = document.getElementById("n3").value;
+        var n4 = document.getElementById("n4").value;
+        var result = Module.ccall('solve_wgyn', 
+            'string',                                   // return type
+            ['number', 'number', 'number', 'number'],   // input types
+            [n1, n2, n3, n4]);                              // arguments
+        document.getElementById("output").innerHTML = result;
+    }, 0);
+}
+</script>
+
+<noscript>Sorry, it looks like your browser doesn't support Javascript or have it enabled.</noscript>
+
+</body>
+</html>
+
